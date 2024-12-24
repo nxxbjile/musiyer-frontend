@@ -1,50 +1,32 @@
-# React + TypeScript + Vite
+# Musiyer-frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Intro
 
-Currently, two official plugins are available:
+Musiyer frontend is the **frontend** part of the **musiyer web app** which is a music player **MERN STACK** project with **TypeScript**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Pages
 
-## Expanding the ESLint configuration
+### Home:
+>The **Home page** shows the **playlists** and **songs** available on the platform which you can listen for **free**
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### My Playlists:
+>Shows you **Your Playlists** if you are logged in else it will **redirect** you to the login in page where you can **login** or **create a new account** and then login to upload your songs and make your own **playlists**.
 
-- Configure the top-level `parserOptions` property like this:
+### My songs:
+This page shows you **Your songs** which you have **uplaoded**, in paginated way.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Favorites:
+The **Favorites** page shows you all of your **liked songs,** 
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Upload Page:
+Lastly, the upload page which allows verified users to upload their songs and listen to that and make playlists.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Features 
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Music Player:
+>music player shown when song is **clicked**, the music player have features such as **loop list** and **shuffle list** and **volume control**.
+
+### Adding a song to a playlist:
+>Adding a song to a playlist is quite easy you just have to click the **Plus sign** and it will show the playlist List pop in which you can **search** for the playlist with it's name and on clicking the song will be added to the playlist you can check that by going to the **My playlists page**.
+
+### thats it, enjoy.
