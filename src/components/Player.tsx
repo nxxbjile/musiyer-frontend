@@ -5,7 +5,7 @@ import { GoHeart, GoHeartFill } from 'react-icons/go';
 import { LuShuffle } from 'react-icons/lu';
 import { RxLoop } from 'react-icons/rx';
 import { TbTriangleFilled } from 'react-icons/tb';
-import { GlobalContext, GlobalContextType } from '../contexts/Globals';
+import { GlobalContext } from '../contexts/Globals';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
@@ -28,7 +28,11 @@ interface Song {
 }
 
 const Player: React.FC<PlayerProps> = ( {hidden = false} ) => {
-  const { currSong, setCurrSong, currSongList, currUser } = useContext(GlobalContext);
+  const globalContext = useContext(GlobalContext);
+  if(!globalContext){
+    throw new Error("GlobalContext cannot be used outside of provider");
+  }
+  const { currSong, setCurrSong, currSongList, currUser } = globalContext;
   const [isLiked, setIsLiked]   =  useState<boolean>(false);
   const [volume, setVolume]     =  useState<number>(50);
   const [isMuted, setIsMuted]   =  useState<boolean>(false);
@@ -38,7 +42,6 @@ const Player: React.FC<PlayerProps> = ( {hidden = false} ) => {
   const [progress, setProgress] =  useState<number>(0);
   const [duration, setDuration] =  useState<number>(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const location = useLocation();
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const vol = Number(e.target.value);

@@ -6,7 +6,11 @@ import axios from 'axios';
 import { GlobalContext } from '../contexts/Globals';
 
 const Home = () => {
-  const { setCurrSongList, currSongList } = useContext(GlobalContext);
+  const globalContext = useContext(GlobalContext);
+  if(!globalContext){
+    throw new Error("GlobalContext cannot be used outside of provider");
+  }
+  const { setCurrSongList, currSongList } = globalContext;
   const [playlists, setPlaylists] = useState([]);
   const [songsPage, setSongsPage] = useState<number>(1);
   const [playlistsPage, setPlaylistsPage] = useState<number>(1);

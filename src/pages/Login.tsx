@@ -1,36 +1,45 @@
 import axios from 'axios';
 import React, { useContext, useState } from 'react'
-import { FaCircleCheck } from 'react-icons/fa6';
-import { ImCross } from 'react-icons/im';
 import { Link, useNavigate } from 'react-router-dom'
 import { PulseLoader } from 'react-spinners';
-import { GlobalContext, GlobalContextType } from '../contexts/Globals';
+import { GlobalContext } from '../contexts/Globals';
 
 type User = {
   username: string;
   password: string;
 }
 
+interface LoginResponse {
+  message?: string;
+  success?: boolean;
+}
+
 const Login = () => {
-  const { setCurrUser } = useContext(GlobalContext);
-  const [user, setUser] = useState<User>({username:'',password:""});
+  const globalContext = useContext(GlobalContext);
+  if(!globalContext){
+    throw new Error("GlobalContext cannot be used outside of provider")
+  }
+  const { setCurrUser } = globalContext;
+  const [user, setUser] = useState<User>({
+    username:"",
+    password:"",
+  });
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const handleChange = (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (key: keyof User, e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({...user,[key]:e.target.value});
   }
 
   const handleLogin = async () => {
-    if(
-      user.username.length < 2 ||
-      user.password.length < 2 
-    ){
-      return;
-    }
-
+      if(
+        user.username.length < 2 ||
+        user.password.length < 2 
+      ){
+        return;
+      }
     setLoading(true);
-    var res = await axios.post(`${import.meta.env.VITE_BASE_API_URL}/users/login`,user);
+    var res = await axios.post<LoginResponse>(`${import.meta.env.VITE_BASE_API_URL}/users/login`,user);
     
     if(res){
       console.log("res :", res);

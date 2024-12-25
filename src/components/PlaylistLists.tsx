@@ -1,33 +1,34 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import venyl from '../assets/venyl.jpeg';
-import { GlobalContext, GlobalContextType } from '../contexts/Globals';
+import { GlobalContext, Song } from '../contexts/Globals';
 import { FaPlus } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 
-interface PlaylistItem {
-  _id: string;
-  title?: string;
-  artist?: string;
-  cover_img?: string;
-  duration?: number; // in seconds
-  name?: string;
-  songs?: PlaylistItem[]; // for playlists
+interface PlaylistItem extends Song {
+  name?:string;
+  songs?:string;
+  cover_img?:string;
+  duration?:number;
 }
 
 interface PlaylistListProps {
-  data: PlaylistItem[];
-  type: 'songs' | 'playlists';
-  dataHandler: () => void;
+  data:         PlaylistItem[];
+  type:         'songs' | 'playlists';
+  dataHandler:  () => void;
 }
 
 const PlaylistLists: React.FC<PlaylistListProps> = ({ data, dataHandler, type = 'playlists' }) => {
+    const globalContext = useContext(GlobalContext);
+    if(!globalContext){
+        throw new Error("Global context must be used within globals provider");
+    }
   const {
     setCurrSong,
     currSong,
     setPlayer,
     setPlaylistToast,
     setSongToPlaylist,
-  } = useContext(GlobalContext);
+  } = globalContext;
   const navigate = useNavigate();
 
   const formatTime = (time: number): string => {
@@ -37,7 +38,7 @@ const PlaylistLists: React.FC<PlaylistListProps> = ({ data, dataHandler, type = 
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  const handleClick = (item: PlaylistItem) => {
+  const handleClick = (item: Song) => {
     if (type === 'songs') {
       setPlayer(true);
       setCurrSong(item);
@@ -48,7 +49,7 @@ const PlaylistLists: React.FC<PlaylistListProps> = ({ data, dataHandler, type = 
     }
   };
 
-  const handleAddPlaylist = (item: PlaylistItem) => {
+  const handleAddPlaylist = (item: Song) => {
     setSongToPlaylist(item);
     setPlaylistToast(true);
   };
@@ -68,7 +69,7 @@ const PlaylistLists: React.FC<PlaylistListProps> = ({ data, dataHandler, type = 
                 onClick={() => handleClick(item)}
                 className="w-12 h-12 rounded-lg border overflow-hidden"
               >
-                {item._id === currSong?._id ? (
+                {currSong && item._id === currSong?._id ? (
                   <img
                     src={item.cover_img || venyl}
                     alt="cover"
