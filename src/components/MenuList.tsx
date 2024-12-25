@@ -1,23 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { FaCompass } from 'react-icons/fa'
+import { useContext, useState } from 'react'
 import { GoHeartFill, GoHomeFill } from 'react-icons/go'
 import { IoAlbums } from 'react-icons/io5'
 import { PiMusicNotesFill } from 'react-icons/pi'
 import { GlobalContext } from '../contexts/Globals'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { FaUpload, FaUserGroup } from 'react-icons/fa6'
+import { useNavigate } from 'react-router-dom'
+import { FaUpload } from 'react-icons/fa6'
 
 type active = string | null;
 interface buttons {
     name:string,
     icon:JSX.Element,
     path:string;
+    pathname:string;
 }
 
 const MenuList = () => {
-    const { sidebarOpen } = useContext(GlobalContext);
+    const globalContext = useContext(GlobalContext);
+    if(!globalContext){
+        throw new Error("GlobalContext cannot be used outside of provider");
+    }
+    const { sidebarOpen } = globalContext;
     const [activeButton, setActiveButton] = useState<active>("Home");
-    const location = useLocation();
 
     const buttons = [
         {

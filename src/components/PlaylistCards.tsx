@@ -1,8 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react'
-import bg from '../assets/excuses.jpeg'
-import bg2 from '../assets/bg2.jpg'
-
-var playlists = Array(12).fill(1,1,11);
+import { ReactNode, useEffect, useState } from 'react'
 
 type dataList = {
     dataList :       any[];   

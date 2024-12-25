@@ -1,10 +1,14 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { Outlet } from 'react-router-dom'
 import Header from './Header'
 import { GlobalContext } from '../contexts/Globals'
 import Player from './Player'
 const Layout = () => {
-  const { sidebarOpen, player} = useContext(GlobalContext);
+  const globalContext = useContext(GlobalContext);
+  if(!globalContext){
+    throw new Error("GlobalContext cannot be used outside of provider");
+  }
+  const { player } = globalContext;
   return (
     <>
       <Header />

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import PlaylistCards from '../components/PlaylistCards'
 import PlaylistLists from '../components/PlaylistLists'
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,7 @@ const Home = () => {
   const { setCurrSongList, currSongList } = globalContext;
   const [playlists, setPlaylists] = useState([]);
   const [songsPage, setSongsPage] = useState<number>(1);
+  //@ts-ignore
   const [playlistsPage, setPlaylistsPage] = useState<number>(1);
 
   const navigate = useNavigate();

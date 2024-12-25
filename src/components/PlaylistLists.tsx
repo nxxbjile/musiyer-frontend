@@ -4,7 +4,7 @@ import { GlobalContext, Song } from '../contexts/Globals';
 import { FaPlus } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 
-interface PlaylistItem extends Song {
+export interface PlaylistItem extends Song {
   name?:string;
   songs?:string;
   cover_img?:string;

@@ -1,6 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
-import RecentSongs from './RecentSongs'
-import PlaylistInfo from './PlaylistInfo'
+import { useContext, useEffect, useState } from 'react'
 import PlaylistLists from './PlaylistLists'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
@@ -10,7 +8,11 @@ const MainArea = () => {
   const { id } = useParams();
   const [data, setData] = useState<any[]>([]);
   const [page, setPage] = useState<number>(1);
-  const { setCurrSongList } = useContext(GlobalContext);
+  const globalContext = useContext(GlobalContext);
+  if(!globalContext){
+    throw new Error("GlobalContext cannot be used outside of provider");
+  }
+  const { setCurrSongList } = globalContext;
 
   const getSongs = async () => {
     var res = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/playlists/${id}/songs`, {params:{page:page}});

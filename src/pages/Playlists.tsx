@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import PlaylistLists from '../components/PlaylistLists'
 import axios from 'axios';
 import { GlobalContext } from '../contexts/Globals';
@@ -6,13 +6,17 @@ import { FaPlus } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 
 const Playlists = () => {
-  const { currUser } = useContext(GlobalContext);
+  const globalContext = useContext(GlobalContext);
+  if(!globalContext){
+    throw new Error('GlobalContext cannot be used outside of provider');
+  }
+  const { currUser } = globalContext;
   const [data, setData] = useState([]);
   const [page, setPage] = useState<number>(1);
   const navigate = useNavigate();
 
   const getPlaylists = async () => {
-    var res = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/playlists/users/${currUser.username}`,{params:{page:page}});
+    var res = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/playlists/users/${currUser?.username}`,{params:{page:page}});
     if(res){
       setData(res.data.playlists);
     }
@@ -30,7 +34,7 @@ const Playlists = () => {
         <div className={`w-fit text-2xl text-white p-2`}>
           My Playlists
         </div>
-        <PlaylistLists dataHandler={()=>alert("more button clicked")} data={data} type="playlists"/>
+        <PlaylistLists dataHandler={()=>setPage((prev) => prev + 1)} data={data} type="playlists"/>
       </div>
     </div>
   )

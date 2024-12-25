@@ -20,8 +20,8 @@ interface song {
 const Upload = () => {
 
   const [selectedFile, setSelectedFile] = useState<FileType>(null);
-  const [uploading, setUploading] = useState<boolean>(false);
-  const [uploadUrl, setUploadUrl] = useState<string>('');
+  const [uploading, setUploading] = useState<boolean>(false);       //@ts-ignore
+  const [uploadUrl, setUploadUrl] = useState<string>('');           //@ts-ignore
   const [error, setError] = useState<string>('');
   const [song, setSong] = useState<song>({
     title:"",
@@ -29,7 +29,11 @@ const Upload = () => {
     genre:"",
     cover_img:"",
   });
-  const { currUser, setPlayer } = useContext(GlobalContext);
+  const globalContext = useContext(GlobalContext);
+  if(!globalContext){
+    throw new Error('GlobalContext cannot be used outside of provider');
+  }
+  const { currUser, setPlayer } = globalContext;
   const navigate = useNavigate();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -75,8 +79,8 @@ const Upload = () => {
         genre:song.genre, 
         duration:response.data.duration.toString(), 
         file_url:`${response.data.secure_url}`, 
-        username:currUser.username,
-        password:currUser.password,
+        username:currUser?.username,
+        password:currUser?.password,
       })
       if(toDb){
         console.log(`new song added to the database :`,toDb.data);
@@ -99,7 +103,7 @@ const Upload = () => {
 
   useEffect(()=>{
     setPlayer(false);
-    if(currUser.username == ""){
+    if(currUser?.username == ""){
       navigate("/login");
     }
   },[currUser])

@@ -1,12 +1,15 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { LuSearch } from 'react-icons/lu'
 import MenuList from './MenuList'
 import User from './User'
 import { GlobalContext } from '../contexts/Globals'
-import Player from './Player'
 
 const Sidebar = () => {
-  const { sidebarOpen , toggleSidebar, currUser } = useContext(GlobalContext);
+  const globalContext = useContext(GlobalContext);
+  if(!globalContext){
+    throw new Error('GlobalContext cannot be used outside of provider');
+  }
+  const { sidebarOpen } = globalContext;
 
   return (
     <div className={`fixed top-14 left-0 max-w-60 h-[calc(100vh-56px)] z-40 transition-all duration-300 ease-in-out bg-neutral-700/30 backdrop-blur-3xl border-r-2 border-neutral-500 ${sidebarOpen ? 'w-60' : 'w-16'}`}>

@@ -15,7 +15,11 @@ const AddPlaylist = () => {
         description:"",
     })
     const [loading, setLoading] = useState<boolean>(false);
-    const { currUser } = useContext(GlobalContext);
+    const globalContext = useContext(GlobalContext);
+    if(!globalContext){
+        throw new Error('GlobalContext cannot be used outside of provider');
+    }
+    const { currUser } = globalContext;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>, key:string) => {
         console.log(inputValue);

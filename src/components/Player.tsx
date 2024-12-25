@@ -6,7 +6,6 @@ import { LuShuffle } from 'react-icons/lu';
 import { RxLoop } from 'react-icons/rx';
 import { TbTriangleFilled } from 'react-icons/tb';
 import { GlobalContext } from '../contexts/Globals';
-import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const formatTime = (time: number): string => {

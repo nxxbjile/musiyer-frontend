@@ -13,7 +13,7 @@ interface UserSongs {
   total_songs:number;
 }
 
-interface UserPlaylists {
+export interface UserPlaylists {
   limit:number;
   message:string;
   page:number;
@@ -28,8 +28,8 @@ const Songs = () => {
     throw new Error("GlobalContext cannot be used outside of provider")
   }
   const {currSongList, setCurrSongList, currUser} = globalContext;
-  const [page, setPage] = useState<number>(1);
-  const [playlistPage, setPlaylistPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(1);                              //@ts-ignore
+  const [playlistPage, setPlaylistPage] = useState<number>(1);              //@ts-ignore
   const [playlist, setPlaylist] = useState<UserPlaylists | null>(null);
 
   const getSongs = async () => {

@@ -1,10 +1,7 @@
-import React, { useContext } from 'react'
 import bgImage from '../assets/excuses.jpeg'
 import SongsList from './SongsList'
-import { GlobalContext } from '../contexts/Globals'
 
 const PlaylistInfo = () => {
-const { sidebarOpen } = useContext(GlobalContext);
   return (
     <div className={`relative h-fit ml-14 p-8 overflow-y-scroll flex flex-col gap-3 w-8/12 `}>
         <div className={`w-full h-14 text-4xl text-white font-semibold`}>
