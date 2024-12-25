@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import PlaylistCards from '../components/PlaylistCards'
 import PlaylistLists from '../components/PlaylistLists'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { GlobalContext } from '../contexts/Globals';
 
 const Home = () => {
-  const [songs, setSongs] = useState([]);
+  const { setCurrSongList, currSongList } = useContext(GlobalContext);
   const [playlists, setPlaylists] = useState([]);
   const [songsPage, setSongsPage] = useState<number>(1);
   const [playlistsPage, setPlaylistsPage] = useState<number>(1);
@@ -15,7 +16,6 @@ const Home = () => {
   const getPlaylists = async () => {
     var res = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/playlists`, {params:{page:playlistsPage}});
     if(res){
-      console.log(res);
       setPlaylists(res.data.playlists);
     }
   }
@@ -23,7 +23,7 @@ const Home = () => {
   const getSongs = async () => {
     var res = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/songs`, {params:{page:songsPage,limit:20}})
     if(res){
-      setSongs((prev)=> [...prev, ...res.data.songs]);
+      setCurrSongList((prev)=> [...prev, ...res.data.songs]);
     }
   }
 
@@ -55,7 +55,7 @@ const Home = () => {
       <div className={`w-full h-fit p-2 text-2xl text-white m-2`}>
         Top Songs
       </div>
-      <PlaylistLists data={songs} type="songs" dataHandler={handleMore} />
+      <PlaylistLists data={currSongList} type="songs" dataHandler={handleMore} />
     </div>
   )
 }

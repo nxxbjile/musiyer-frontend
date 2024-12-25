@@ -15,7 +15,6 @@ const Artists = () => {
 
     const getArtists = async ():Promise<void> => {
         var res = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/artists`,{params:{page}});
-        console.log(res);
         setData((prev)=> [...prev, ...res.data.artists]);
     }
 

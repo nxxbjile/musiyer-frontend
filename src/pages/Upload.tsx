@@ -99,10 +99,10 @@ const Upload = () => {
 
   useEffect(()=>{
     setPlayer(false);
-    if(!currUser.username){
+    if(currUser.username == ""){
       navigate("/login");
     }
-  },[])
+  },[currUser])
 
   return (
     <div className={`w-full h-full bg-neutral-800/30 backdrop-blur-lg flex items-center justify-center z-10`}>

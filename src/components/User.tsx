@@ -13,7 +13,11 @@ const User = ():JSX.Element => {
     const { sidebarOpen, currUser, setCurrUser, player, setPlayer } = useContext(GlobalContext);
 
     const handleLogout = () => {
-        setCurrUser({});
+        localStorage.removeItem("user");
+        setCurrUser({
+            username:"",
+            password:"",
+        });
         navigate("/");
         setPlayer(false);
     }

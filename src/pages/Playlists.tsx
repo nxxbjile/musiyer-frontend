@@ -14,7 +14,6 @@ const Playlists = () => {
   const getPlaylists = async () => {
     var res = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/playlists/users/${currUser.username}`,{params:{page:page}});
     if(res){
-      console.log(res);
       setData(res.data.playlists);
     }
   }

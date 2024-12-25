@@ -16,7 +16,6 @@ const MainArea = () => {
     var res = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/playlists/${id}/songs`, {params:{page:page}});
     if(res.data.playlistKey){
       setData((prev) => [...prev, ...res.data.playlistKey.songs]);
-      console.log(res.data.playlistKey.songs);
     }
   }
 

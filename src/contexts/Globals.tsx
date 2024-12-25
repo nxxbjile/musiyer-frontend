@@ -29,14 +29,22 @@ export interface GlobalsProps {
     children : ReactNode;
 }
 
+interface Song {
+    _id:string;
+    file_url:string;
+    title?:string;
+    artist?:string;
+}
+
 const Globals:React.FC<GlobalsProps> = ({children} : GlobalsProps ) : ReactElement => {
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
-    const [currSong, setCurrSong] = useState<{}>({});
+    const [currSong, setCurrSong] = useState<Song | null>(null);
     const [player, setPlayer] = useState<boolean>(false);
-    const [currSongList, setCurrSongList] = useState< any[] >([]);
-    const [currUser, setCurrUser] = useState<User>({
-        username:"himanshu",
-        password:"1234"
+    const [currSongList, setCurrSongList] = useState<Song[]>([]);
+    const storedUser = JSON.parse(localStorage.getItem("user") || null) as User | null;
+    const [currUser, setCurrUser] = useState<User>( storedUser ||{
+        username:"",
+        password:""
     });
     const [songToPlaylist, setSongToPlaylist] = useState({});
     const [ playlistToast, setPlaylistToast] = useState<boolean>(false);

@@ -19,7 +19,6 @@ const Login = () => {
 
   const handleChange = (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({...user,[key]:e.target.value});
-    console.log(user);
   }
 
   const handleLogin = async () => {
@@ -37,6 +36,7 @@ const Login = () => {
       console.log("res :", res);
     }
     if(res.data.success){
+        localStorage.setItem("user", JSON.stringify(user));
         setCurrUser(user);
         navigate("/");
     }

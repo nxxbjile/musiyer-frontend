@@ -11,7 +11,6 @@ const ArtistSongs = () => {
     const getSongs = async () => {
         try{
             var res = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/artists/${id}/songs`, {params:{page}});
-            console.log(res.data);
             var newSongs = res.data.songs.songs;
             setSongs((prev:any[])=> [...prev, ...newSongs]);
         }catch(error){

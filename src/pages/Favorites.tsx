@@ -6,13 +6,12 @@ import { GlobalContext } from '../contexts/Globals';
 
 const Favorites = () => {
     const { currUser, setCurrSongList } = useContext(GlobalContext);
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<any[]>([]);
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
 
     const getFavorites = async () => {
         var res = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/users/${currUser.username}/favorites/songs`, {params:{page}});
-        console.log(res.data.songs);
         setData((prev)=> [...prev, ...res.data.songs]);
     }
 

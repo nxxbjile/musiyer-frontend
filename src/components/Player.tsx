@@ -20,6 +20,13 @@ type PlayerProps = {
   hidden: boolean;
 };
 
+interface Song {
+  _id:string;
+  title?:string;
+  file_url?:string;
+  artist?:string;
+}
+
 const Player: React.FC<PlayerProps> = ( {hidden = false} ) => {
   const { currSong, setCurrSong, currSongList, currUser } = useContext(GlobalContext);
   const [isLiked, setIsLiked]   =  useState<boolean>(false);
@@ -108,11 +115,16 @@ const Player: React.FC<PlayerProps> = ( {hidden = false} ) => {
   };
   
   const handleNext = async () => {
-    let currentIndex = currSongList.findIndex((song) => song._id === currSong._id);
-    let nextIndex = undefined;
-
-    const visitedIndices = new Set(); // To avoid infinite loops in shuffle mode
-
+    if (!currSongList.length) {
+      console.error("No songs in the playlist.");
+      setCurrSong(null);
+      return;
+    }
+  
+    let currentIndex = currSongList.findIndex((song:Song) => song._id === currSong?._id);
+    const visitedIndices = new Set<number>();
+    let nextIndex;
+  
     const getNextIndex = () => {
       if (shuffle) {
         let randomIndex;
@@ -124,42 +136,69 @@ const Player: React.FC<PlayerProps> = ( {hidden = false} ) => {
         return calculateNext(currentIndex);
       }
     };
-
+  
     while (visitedIndices.size < currSongList.length) {
       nextIndex = getNextIndex();
       visitedIndices.add(nextIndex);
-
-      const isAvailable = await checkAudio(currSongList[nextIndex].file_url);
-      if (isAvailable) {
+  
+      if (await checkAudio(currSongList[nextIndex].file_url)) {
         setCurrSong(currSongList[nextIndex]);
-        // Try to play the new song
         playAudio();
         return;
       }
     }
-
+  
     console.error("No playable songs available in the playlist.");
+    // Reset player or show error UI
+    setCurrSong(null);
   };
 
   const handlePrev = () => {
-    var currentIndex = currSongList.findIndex((song)=> song._id === currSong._id);
-    var prevIndex = (currentIndex - 1) % currSongList.length;
-    setCurrSong(currSongList[prevIndex]);
-  }
+    const currentIndex = currSongList.findIndex((song:Song) => song._id === currSong?._id);
+  
+    // Check if the current song exists in the list
+    if (currentIndex === -1) {
+      console.error("Current song is not in the playlist.");
+      return;
+    }
+  
+    // Calculate the previous index, wrapping around if necessary
+    const prevIndex = (currentIndex - 1 + currSongList.length) % currSongList.length;
+  
+    // Check if the previous index is valid
+    if (prevIndex >= 0 && prevIndex < currSongList.length) {
+      setCurrSong(currSongList[prevIndex]);
+  
+      // Optionally play the new song
+      playAudio();
+    } else {
+      console.error("Invalid previous index.");
+    }
+  };
+  
 
   const handleLike = async () => {
-    if(isLiked){
-      var res = await axios.post(`${import.meta.env.VITE_BASE_API_URL}/users/${currUser.username}/favorites`,{songId:currSong._id.toString()},{
-        headers:{
-          'Content-Type':'application/json',
-        }
-      })
-      console.log(res);
-    }else{
-      var res = await axios.delete(`${import.meta.env.VITE_BASE_API_URL}/users/${currUser.username}/favorites/${currSong._id.toString()}`);
-      console.log(res);
+    if (!currSong || !currSong?._id) {
+      // console.error("currSong is not defined or missing _id.");
+      return;
     }
-  }
+    try {
+      if (isLiked) {
+        await axios.post(
+          `${import.meta.env.VITE_BASE_API_URL}/users/${currUser?.username}/favorites`,
+          { songId: currSong._id },
+          { headers: { "Content-Type": "application/json" } }
+        );
+      } else {
+        await axios.delete(
+          `${import.meta.env.VITE_BASE_API_URL}/users/${currUser?.username}/favorites/${currSong._id}`
+        );
+      }
+    } catch (error) {
+      console.error("Error updating favorites:", error);
+    }
+  };
+  
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -216,6 +255,7 @@ const Player: React.FC<PlayerProps> = ( {hidden = false} ) => {
   },[isLiked])
 
   useEffect(()=>{
+    if(!currSong) return;
     setIsPaused(false);
     audioRef.current?.play();
   },[currSong]);
@@ -284,13 +324,21 @@ const Player: React.FC<PlayerProps> = ( {hidden = false} ) => {
           </div>
         </div>
       </div>
-      <audio ref={audioRef} src={currSong ? currSong.file_url : ""} onEnded={() => {
-            if (loopList) {
-              handleNext(); // Loop through the list
-            } else if (shuffle) {
-              handleNext(); // Shuffle to another track
-            }
-          }} />
+      <audio
+        ref={audioRef}
+        src={currSong?.file_url || ""}
+        onEnded={() => {
+          if (loopList) handleNext();
+          else if (shuffle) handleNext();
+        }}
+        onError={() => {
+          console.error("Error loading the audio file.");
+          if(currSongList.length >= 1){
+            handleNext(); // Move to the next song on error
+          }
+        }}
+      />
+
       <div className={`py-2 w-full flex items-center justify-center`}>
         <div className={`text-white text-sm px-6 text-center items-center`}>
           {formatTime(progress)}
