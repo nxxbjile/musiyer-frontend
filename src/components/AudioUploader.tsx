@@ -50,7 +50,7 @@ const AudioUploader: React.FC = () => {
       );
 
       setUploadUrl(response.data.secure_url); // Get the uploaded file's URL
-      var toDb = await axios.post("http://localhost:3000/songs",{
+      var toDb = await axios.post(`${import.meta.env.VITE_BASE_API_URL}`,{
         title:"excuses",
         artist:"AP Dhillon", 
         genre:"Punjabi", 

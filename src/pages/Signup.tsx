@@ -37,7 +37,7 @@ const Signup = () => {
       return;
     }
     setLoading(true);
-    var res = await axios.post<UserRes>("http://localhost:3000/users/",user);
+    var res = await axios.post<UserRes>(`${import.meta.env.VITE_BASE_API_URL}/users/`,user);
     if(res){
       console.log("res :", res);
     }

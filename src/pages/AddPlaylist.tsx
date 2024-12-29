@@ -29,7 +29,7 @@ const AddPlaylist = () => {
     const handleSubmit = async () => {
         setLoading(true);
         try{
-            var res = await axios.post(`http://localhost:3000/playlists`,{ ...inputValue, ...currUser})
+            var res = await axios.post(`${import.meta.env.VITE_BASE_API_URL}/playlists`,{ ...inputValue, ...currUser})
             if(res){
                 console.log(res);
                 setLoading(false);
