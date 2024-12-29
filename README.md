@@ -29,4 +29,7 @@ Lastly, the upload page which allows verified users to upload their songs and li
 ### Adding a song to a playlist:
 >Adding a song to a playlist is quite easy you just have to click the **Plus sign** and it will show the playlist List pop in which you can **search** for the playlist with it's name and on clicking the song will be added to the playlist you can check that by going to the **My playlists page**.
 
+# Live on
+>https://musiyer.netlify.app
+
 ### thats it, enjoy.
