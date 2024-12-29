@@ -24,7 +24,7 @@ const Signup = () => {
 
   const handleChange = (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({...user,[key]:e.target.value});
-    console.log(user);
+    // console.log(user);
   }
 
   const handleSignup = async () => {
@@ -39,7 +39,7 @@ const Signup = () => {
     setLoading(true);
     var res = await axios.post<UserRes>(`${import.meta.env.VITE_BASE_API_URL}/users/`,user);
     if(res){
-      console.log("res :", res);
+      // console.log("res :", res);
     }
     if(!res){
       setCard(true);

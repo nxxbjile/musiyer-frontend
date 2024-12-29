@@ -181,7 +181,7 @@ const Player: React.FC<PlayerProps> = ( {hidden = false} ) => {
 
   const handleLike = async () => {
     if (!currSong || !currSong?._id) {
-      // console.error("currSong is not defined or missing _id.");
+      console.error("currSong is not defined or missing _id.");
       return;
     }
     try {

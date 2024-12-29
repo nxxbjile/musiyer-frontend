@@ -42,7 +42,7 @@ const Login = () => {
     var res = await axios.post<LoginResponse>(`${import.meta.env.VITE_BASE_API_URL}/users/login`,user);
     
     if(res){
-      console.log("res :", res);
+      // console.log("res :", res);
     }
     if(res.data.success){
         localStorage.setItem("user", JSON.stringify(user));

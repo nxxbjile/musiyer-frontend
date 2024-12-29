@@ -12,7 +12,7 @@ const AddArtist = () => {
     })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>, key:string) => {
-        console.log(inputValue);
+        // console.log(inputValue);
         setInputValue((prev)=> ({...prev, [key]:e.target.value}));
     }
 
