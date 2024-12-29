@@ -83,7 +83,7 @@ const PlaylistToast = () => {
   return (
     <>
       {playlistToast && (
-        <div className="fixed top-0 left-16 z-50 transform translate-x-1/2 translate-y-1/2 w-2/5 h-[100vh-100px] flex flex-col items-center justify-start p-3 bg-neutral-500/40 backdrop-blur-lg border-2 border-gray-600 rounded-xl">
+        <div className="fixed top-0 left-16 z-50 transform translate-x-1/2 w-2/5 h-[100vh-100px] flex flex-col items-center justify-start p-3 bg-neutral-500/40 backdrop-blur-lg border-2 border-gray-600 rounded-xl">
           <div
             onClick={() => setPlaylistToast(false)}
             className="top-3 right-3 absolute rotate-45 text-xl font-semibold cursor-pointer p-2 rounded-full bg-emerald-500 text-white"

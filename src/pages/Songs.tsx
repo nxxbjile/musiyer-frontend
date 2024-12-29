@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react'
 import PlaylistLists from '../components/PlaylistLists'
 import axios from 'axios';
 import { GlobalContext, Song } from '../contexts/Globals';
-import PlaylistToast from '../components/PlaylistToast'
 
 interface UserSongs {
   limit:number;
@@ -65,7 +64,7 @@ const Songs = () => {
   return (
     <div className={`w-full h-full pl-16 pb-[300px] overflow-x-hidden backdrop-blur-md relative`}> 
         {/* playlist toast */}
-        <PlaylistToast /> 
+        {/* <PlaylistToast />  */}
       <div className={`w-full p-2`}>
         <div className={`w-fit text-2xl text-white p-2`}>
           My Songs
